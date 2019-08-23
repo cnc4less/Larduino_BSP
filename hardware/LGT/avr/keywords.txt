@@ -1,0 +1,37 @@
+#################################################
+# Syntax Colouring Map for LGT8 based boards
+#################################################
+
+#################################################
+# Datatypes (KEYWORD1)
+#################################################
+
+
+#################################################
+# Methods and Functions (KEYWORD2)
+#################################################
+digitalToggle	KEYWORD2
+sysClock	KEYWORD2
+
+#################################################
+# Instances (KEYWORD2)
+#################################################
+
+
+#################################################
+# Constants (LITERAL1)
+#################################################
+VCCM	LITERAL1
+AOFF	LITERAL1
+V5D1	LITERAL1
+IVREF	LITERAL1
+V5D4	LITERAL1
+AGND	LITERAL1
+DACO	LITERAL1
+PGAO	LITERAL1
+INT_OSC	LITERAL1
+EXT_OSC	LITERAL1
+ANALOG	LITERAL1
+INTERNAL1V024	LITERAL1
+INTERNAL2V048	LITERAL1
+INTERNAL4V096	LITERAL1
