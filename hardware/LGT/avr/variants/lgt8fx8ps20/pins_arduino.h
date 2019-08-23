@@ -1,8 +1,5 @@
 /*
-  pins_arduino.h - Pin definition functions for Arduino
-  Part of Arduino - http://www.arduino.cc/
-
-  Copyright (c) 2007 David A. Mellis
+  pins_arduino.h - Pin definition functions for LGT8F_SSOP20
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -18,8 +15,6 @@
   Public License along with this library; if not, write to the
   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
   Boston, MA  02111-1307  USA
-
-  $Id: wiring.h 249 2007-02-03 16:52:51Z mellis $
 */
 
 #ifndef __LGT8FX8P__

@@ -1,8 +1,5 @@
 /*
-  pins_arduino.h - Pin definition functions for Arduino
-  Part of Arduino - http://www.arduino.cc/
-
-  Copyright (c) 2007 David A. Mellis
+  pins_arduino.h - Pin definition functions for LGT8F boards
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -18,8 +15,6 @@
   Public License along with this library; if not, write to the
   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
   Boston, MA  02111-1307  USA
-
-  $Id: wiring.h 249 2007-02-03 16:52:51Z mellis $
 */
 
 #ifndef Pins_Arduino_h
@@ -112,13 +107,6 @@ static const uint8_t A11 = 26;
 #define D12	12	/* PB4 */
 #define D13	13	/* PB5 */
 
-#define C0	14
-#define C1	15
-#define C2	16
-#define C3	17
-#define C4	18
-#define C5	19
-
 #define D14	14	/* PC0 */
 #define D15	15	/* PC1 */
 #define D16	16	/* PC2 */
@@ -126,34 +114,31 @@ static const uint8_t A11 = 26;
 #define D18	18	/* PC4 */
 #define D19	19	/* PC5 */
 
+#define B0	8
+#define B1	9
+#define B2	10
+#define B3	11
+#define B4	12
+#define B5	13
+
+#define C0	14
+#define C1	15
+#define C2	16
+#define C3	17
+#define C4	18
+#define C5	19
+
 #if defined(__LGT8FX8E__) || defined(__LGT8FX8P__)
-#define E1	20	/* A6 */
-#define E3	21	/* A7 */
 #define D20	20	/* A6 */
 #define D21	21	/* A7 */
+#define E1	20	/* A6 */
+#define E3	21	/* A7 */
 #if defined(__LGT8FX8P48__)
-#define C7	23
-#define	F0	24
-#define	E6	25
-#define	E7	26
-#define D22 	22	/* PB6 */
-#define D23 	23	/* A8 - PC7 */
-#define D24 	24	/* A9 - PF0 */
-#define D25 	25	/* A10 - PE6 */
-#define D26 	26	/* A11 - PE7 */
-#define	C6	28
-#define E0	29 
-#define E2	30
-#define E4	31
-#define E5	32
-#define	F1	33
-#define	F2	34
-#define	F3	35
-#define	F4	36
-#define	F5	37
-#define	F6	38
-#define	F7	39
-
+#define D22 22	/* PB6 */
+#define D23 23	/* A8 - PC7 */
+#define D24 24	/* A9 - PF0 */
+#define D25 25	/* A10 - PE6 */
+#define D26 26	/* A11 - PE7 */
 #define D27	27	/* PB7 */
 #define	D28	28	/* PC6 */
 #define D29	29 	/* PE0 */
@@ -167,6 +152,28 @@ static const uint8_t A11 = 26;
 #define	D37	37	/* PF5 */
 #define	D38	38	/* PF6 */
 #define	D39	39	/* PF7 */
+
+#define B6	22
+#define B7	27
+
+#define	C6	28
+#define C7	23
+
+#define E0	29 
+#define E2	30
+#define E4	31
+#define E5	32
+#define	E6	25
+#define	E7	26
+
+#define	F0	24
+#define	F1	33
+#define	F2	34
+#define	F3	35
+#define	F4	36
+#define	F5	37
+#define	F6	38
+#define	F7	39
 #else
 #define E0	22
 #define E2	23
@@ -205,32 +212,6 @@ static const uint8_t A11 = 26;
 #define digitalPinToInterrupt(p)  ((p) == 2 ? 0 : ((p) == 3 ? 1 : NOT_AN_INTERRUPT))
 
 #ifdef ARDUINO_MAIN
-
-// On the Arduino board, digital pins are also used
-// for the analog output (software PWM).  Analog input
-// pins are a separate set.
-
-// ATMEL ATMEGA8 & 168 / ARDUINO
-//
-//                  +-\/-+
-//            PC6  1|    |28  PC5 (AI 5)
-//      (D 0) PD0  2|    |27  PC4 (AI 4)
-//      (D 1) PD1  3|    |26  PC3 (AI 3)
-//      (D 2) PD2  4|    |25  PC2 (AI 2)
-// PWM+ (D 3) PD3  5|    |24  PC1 (AI 1)
-//      (D 4) PD4  6|    |23  PC0 (AI 0)
-//            VCC  7|    |22  GND
-//            GND  8|    |21  AREF
-//            PB6  9|    |20  AVCC
-//            PB7 10|    |19  PB5 (D 13)
-// PWM+ (D 5) PD5 11|    |18  PB4 (D 12)
-// PWM+ (D 6) PD6 12|    |17  PB3 (D 11) PWM
-//      (D 7) PD7 13|    |16  PB2 (D 10) PWM
-//      (D 8) PB0 14|    |15  PB1 (D 9) PWM
-//                  +----+
-//
-// (PWM+ indicates the additional PWM pins on the ATmega168.)
-
 
 // these arrays map port names (e.g. port B) to the
 // appropriate addresses for various functions (e.g. reading
