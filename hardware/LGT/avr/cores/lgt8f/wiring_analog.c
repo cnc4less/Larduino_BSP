@@ -20,8 +20,6 @@
   Boston, MA  02111-1307  USA
 
   Modified 28 September 2010 by Mark Sproul
-
-  $Id: wiring.c 248 2007-02-03 15:36:30Z mellis $
 */
 
 #include "wiring_private.h"
@@ -212,10 +210,15 @@ void analogWrite(uint8_t pin, int val)
 
 	if (val == 0 && LGT_NOT_DACO(pin)) {
 		digitalWrite(pin, LOW);
-	} else if (val == 255 && LGT_NOT_DACO(pin)) {
+	} 
+	else if (val == 255 && LGT_NOT_DACO(pin)) 
+	{
 		digitalWrite(pin, HIGH);
-	} else {
-		switch(digitalPinToTimer(pin)) {
+	} 
+	else 
+	{
+		switch(digitalPinToTimer(pin)) 
+{
 			// XXX fix needed for atmega8
 			#if defined(TCCR0) && defined(COM00) && !defined(__AVR_ATmega8__)
 			case TIMER0A:
@@ -257,6 +260,13 @@ void analogWrite(uint8_t pin, int val)
 				break;
 			#endif
 
+	#if defined(TCCR1A) && defined(COM1C1)
+			case TIMER1C:
+				// connect pwm to pin on timer 1, channel B
+				sbi(TCCR1A, COM1C1);
+				OCR1C = val; // set pwm duty
+				break;
+			#endif
 			#if defined(TCCR2) && defined(COM21)
 			case TIMER2:
 				// connect pwm to pin on timer 2
