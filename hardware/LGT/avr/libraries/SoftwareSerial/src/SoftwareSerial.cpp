@@ -157,7 +157,7 @@ const int XMIT_START_ADJUSTMENT = 6;
 // Statics
 //
 SoftwareSerial *SoftwareSerial::active_object = 0;
-char SoftwareSerial::_receive_buffer[_SS_MAX_RX_BUFF];
+uint8_t  SoftwareSerial::_receive_buffer[_SS_MAX_RX_BUFF];
 volatile uint8_t SoftwareSerial::_receive_buffer_tail = 0;
 volatile uint8_t SoftwareSerial::_receive_buffer_head = 0;
 
@@ -166,9 +166,9 @@ volatile uint8_t SoftwareSerial::_receive_buffer_head = 0;
 //
 // This function generates a brief pulse
 // for debugging or measuring on an oscilloscope.
+#if _DEBUG
 inline void DebugPulse(uint8_t pin, uint8_t count)
 {
-#if _DEBUG
   volatile uint8_t *pport = portOutputRegister(digitalPinToPort(pin));
 
   uint8_t val = *pport;
@@ -177,8 +177,10 @@ inline void DebugPulse(uint8_t pin, uint8_t count)
     *pport = val | digitalPinToBitMask(pin);
     *pport = val;
   }
-#endif
 }
+#else
+inline void DebugPulse(uint8_t, uint8_t) {}
+#endif
 
 //
 // Private methods
@@ -202,8 +204,14 @@ inline void SoftwareSerial::tunedDelay(uint16_t delay) {
 // one and returns true if it replaces another 
 bool SoftwareSerial::listen()
 {
+  if (!_rx_delay_stopbit)
+    return false;
+
   if (active_object != this)
   {
+    if (active_object)
+      active_object->stopListening();
+
     _buffer_overflow = false;
     uint8_t oldSREG = SREG;
     cli();
@@ -213,6 +221,18 @@ bool SoftwareSerial::listen()
     return true;
   }
 
+  return false;
+}
+
+// Stop listening. Returns true if we were actually listening.
+bool SoftwareSerial::stopListening()
+{
+  if (active_object == this)
+  {
+    setRxIntMsk(false);
+    active_object = NULL;
+    return true;
+  }
   return false;
 }
 
@@ -378,8 +398,12 @@ SoftwareSerial::~SoftwareSerial()
 
 void SoftwareSerial::setTX(uint8_t tx)
 {
+  // First write, then set output. If we do this the other way around,
+  // the pin would be output low for a short while before switching to
+  // output high. Now, it is input with pullup for a short while, which
+  // is fine. With inverse logic, either order is fine.
+  digitalWrite(tx, _inverse_logic ? LOW : HIGH);
   pinMode(tx, OUTPUT);
-  digitalWrite(tx, HIGH);
   _transmitBitMask = digitalPinToBitMask(tx);
   uint8_t port = digitalPinToPort(tx);
   _transmitPortRegister = portOutputRegister(port);
@@ -519,13 +543,7 @@ size_t SoftwareSerial::write(uint8_t b)
 
 void SoftwareSerial::flush()
 {
-  if (!isListening())
-    return;
-
-  uint8_t oldSREG = SREG;
-  cli();
-  _receive_buffer_head = _receive_buffer_tail = 0;
-  SREG = oldSREG;
+  // There is no tx buffering, simply return
 }
 
 int SoftwareSerial::peek()

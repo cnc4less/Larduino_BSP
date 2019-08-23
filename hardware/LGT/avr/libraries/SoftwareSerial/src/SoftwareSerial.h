@@ -29,8 +29,8 @@ The latest version of this library can always be found at
 http://arduiniana.org.
 */
 
-#ifndef SoftwareSerialLGT_h
-#define SoftwareSerialLGT_h
+#ifndef SoftwareSerial_h
+#define SoftwareSerial_h
 
 #include <inttypes.h>
 #include <Stream.h>
@@ -39,7 +39,10 @@ http://arduiniana.org.
 * Definitions
 ******************************************************************************/
 
+#ifndef _SS_MAX_RX_BUFF
 #define _SS_MAX_RX_BUFF 64 // RX buffer size
+#endif
+
 #ifndef GCC_VERSION
 #define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 #endif
@@ -54,6 +57,7 @@ private:
   uint8_t _transmitBitMask;
   volatile uint8_t *_transmitPortRegister;
 
+  // Expressed as 4-cycle delays (must never be 0!)
   uint16_t _rx_delay_centering;
   uint16_t _rx_delay_intrabit;
   uint16_t _rx_delay_stopbit;
@@ -63,13 +67,13 @@ private:
   uint16_t _inverse_logic:1;
 
   // static data
-  static char _receive_buffer[_SS_MAX_RX_BUFF]; 
+  static uint8_t _receive_buffer[_SS_MAX_RX_BUFF]; 
   static volatile uint8_t _receive_buffer_tail;
   static volatile uint8_t _receive_buffer_head;
   static SoftwareSerial *active_object;
 
   // private methods
-  void recv();
+  inline void recv() __attribute__((__always_inline__));
   uint8_t rx_pin_read();
   void tx_pin_write(uint8_t pin_state);
   void setTX(uint8_t transmitPin);
@@ -86,18 +90,20 @@ public:
   bool listen();
   void end();
   bool isListening() { return this == active_object; }
-  bool overflow() { bool ret = _buffer_overflow; _buffer_overflow = false; return ret; }
+  bool stopListening();
+  bool overflow() { bool ret = _buffer_overflow; if (ret) _buffer_overflow = false; return ret; }
   int peek();
 
   virtual size_t write(uint8_t byte);
   virtual int read();
   virtual int available();
   virtual void flush();
+  operator bool() { return true; }
   
   using Print::write;
 
   // public only for easy access by interrupt handlers
-  static inline void handle_interrupt();
+  static inline void handle_interrupt() __attribute__((__always_inline__));
 };
 
 // Arduino 0012 workaround
