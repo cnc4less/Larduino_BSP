@@ -195,7 +195,6 @@ int analogRead(uint8_t pin)
 // hardware support.  These are defined in the appropriate
 // pins_*.c file.  For the rest of the pins, we default
 // to digital output.
-
 void analogWrite(uint8_t pin, int val)
 {
 	// We need to make sure the PWM output is enabled for those pins
@@ -203,7 +202,6 @@ void analogWrite(uint8_t pin, int val)
 	// writing with them.  Also, make sure the pin is in output mode
 	// for consistenty with Wiring, which doesn't require a pinMode
 	// call for the analog output pins.
-	
 	if(LGT_NOT_DACO(pin)) {
 		pinMode(pin, OUTPUT);
 	}
@@ -214,11 +212,11 @@ void analogWrite(uint8_t pin, int val)
 	else if (val == 255 && LGT_NOT_DACO(pin)) 
 	{
 		digitalWrite(pin, HIGH);
-	} 
-	else 
+	}
+	else
 	{
-		switch(digitalPinToTimer(pin)) 
-{
+		switch(digitalPinToTimer(pin))
+		{
 			// XXX fix needed for atmega8
 			#if defined(TCCR0) && defined(COM00) && !defined(__AVR_ATmega8__)
 			case TIMER0A:
@@ -260,13 +258,14 @@ void analogWrite(uint8_t pin, int val)
 				break;
 			#endif
 
-	#if defined(TCCR1A) && defined(COM1C1)
+			#if defined(TCCR1A) && defined(COM1C1)
 			case TIMER1C:
 				// connect pwm to pin on timer 1, channel B
 				sbi(TCCR1A, COM1C1);
 				OCR1C = val; // set pwm duty
 				break;
 			#endif
+
 			#if defined(TCCR2) && defined(COM21)
 			case TIMER2:
 				// connect pwm to pin on timer 2
