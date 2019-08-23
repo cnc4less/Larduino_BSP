@@ -1,5 +1,5 @@
 #######################################
-# Syntax Coloring Map For Ultrasound
+# Syntax Coloring Map For EEPROM
 #######################################
 
 #######################################
@@ -13,6 +13,8 @@ EEPROM	KEYWORD1
 #######################################
 read		KEYWORD2
 write		KEYWORD2
+read_block	KEYWORD2
+write_block	KEYWORD2
 read32		KEYWORD2
 write32		KEYWORD2
 readSWM		KEYWORD2
