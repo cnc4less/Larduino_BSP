@@ -347,20 +347,17 @@ public:
     if (bitOrder == LSBFIRST) SPCR |= _BV(DORD);
     else SPCR &= ~(_BV(DORD));
   }
-
   // This function is deprecated.  New applications should use
   // beginTransaction() to configure SPI settings.
   inline static void setDataMode(uint8_t dataMode) {
     SPCR = (SPCR & ~SPI_MODE_MASK) | dataMode;
   }
-
   // This function is deprecated.  New applications should use
   // beginTransaction() to configure SPI settings.
   inline static void setClockDivider(uint8_t clockDiv) {
     SPCR = (SPCR & ~SPI_CLOCK_MASK) | (clockDiv & SPI_CLOCK_MASK);
     SPSR = (SPSR & ~SPI_2XCLOCK_MASK) | ((clockDiv >> 2) & SPI_2XCLOCK_MASK);
   }
-
   // These undocumented functions should not be used.  SPI.transfer()
   // polls the hardware flag which is automatically cleared as the
   // AVR responds to SPI's interrupt
