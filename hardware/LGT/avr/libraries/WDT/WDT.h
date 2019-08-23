@@ -40,6 +40,7 @@
 #define WTO_4MS		2
 #define WTO_8MS		3
 #define WTO_16MS	4
+#define WTO_32MS  5
 #define	WTO_64MS	6	
 #define WTO_128MS	7
 #define	WTO_256MS	8
