@@ -32,7 +32,7 @@
 static const uint8_t DAC0 = 4;
 static const uint8_t DAC1 = 22;
 
-#include "../standard/pins_arduino.h"
+#include "../lgt8f/pins_arduino.h"
 #undef NUM_ANALOG_INPUTS
 #define NUM_ANALOG_INPUTS           8
 

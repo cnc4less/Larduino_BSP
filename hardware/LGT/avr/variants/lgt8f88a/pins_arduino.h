@@ -27,6 +27,6 @@
 
 #include "lgt88a.h"
 
-#include "../standard/pins_arduino.h"
+#include "../lgt8f/pins_arduino.h"
 #undef NUM_ANALOG_INPUTS
 #define NUM_ANALOG_INPUTS           8
